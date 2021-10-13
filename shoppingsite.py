@@ -6,7 +6,7 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session, flash
 import jinja2
 
 import melons
@@ -26,11 +26,9 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 # more useful (you should remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
-
 @app.route("/")
 def index():
     """Return homepage."""
-
     return render_template("homepage.html")
 
 
@@ -95,12 +93,21 @@ def add_to_cart(melon_id):
     #
     # - check if a "cart" exists in the session, and create one (an empty
     #   dictionary keyed to the string "cart") if not
-    # - check if the desired melon id is the cart, and if not, put it in
+    # - check if the desired melon id is in the cart, and if not, put it in
     # - increment the count for that melon id by 1
     # - flash a success message
     # - redirect the user to the cart page
 
-    return "Oops! This needs to be implemented!"
+    if 'cart' not in session:
+        session['cart'] = {}
+    print(session['cart'])
+    if melon_id not in session['cart']:
+        session['cart'] = {melon_id: 1}
+    else:
+        session['cart'][melon_id] += 1
+
+    flash('Melon added to cart!')
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
@@ -144,7 +151,6 @@ def checkout():
 
     flash("Sorry! Checkout will be implemented in a future version.")
     return redirect("/melons")
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
