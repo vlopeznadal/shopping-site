@@ -1,0 +1,10 @@
+Your goal is to understand how the app is laid out. 
+As you do this with your partner, create a diagram together representing the pages, routes, templates, etc., and how they connect to each other.
+
+Page                    | Route    | Template           | Data From
+Homepage:localhost:5000 | /        | homepage.html
+List of Melons Page     | /melons  | all_melons.html    | pulls data from melons.py
+Melon Detail Page       | /melons/<melon_id> | melon_details.html | pulls data from melons.py
+Shopping Cart Page      | /cart    | cart.html
+Updated Shopping Cart Page | /add_to_cart/<melon_id> | NONE | 
+Login Page              | /login   | login.html
